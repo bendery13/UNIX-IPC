@@ -1,9 +1,9 @@
 /**************************************
- *  UNIX_IPC.c                          *
+ *  UNIX_IPC.c                        *
  *                                    *
- *  compile: "cc UNIX_IPC.c"            * 
+ *  compile: "cc UNIX_IPC.c"          * 
  *  host: os.cs.siue.edu              *
- *  Ryan Bender (bendery13)    *
+ *  Ryan Bender (bendery13)           *
  ***************************************/
 
 #include <stdio.h>
@@ -116,10 +116,10 @@ int main(){
 	pid_t parent_pid = getpid();		//save parent pid to access after fork()
 
 	/******************************************
-	 *					  					  *
-	 *	COMPUTATION IS STARTING		 		  *
-	 *	SETUP COMPLETE                    	  *
-	 *					  					  *
+	 *					   *
+	 *	COMPUTATION IS STARTING		   *
+	 *	SETUP COMPLETE                     *
+	 *					   *
 	 * ****************************************/
 
 	printf("=============  The MASTER PROCESS STARTS ==============\n");
@@ -171,8 +171,8 @@ int main(){
 
 	
 	/***************************
-	 *	FINAL REPORT	       *
-	 *		                   *
+	 *	FINAL REPORT	    *
+	 *		            *
 	 ***************************/
 	if(getpid() == parent_pid){
 	while(p_shm->done_flag[0] != 1 || p_shm->done_flag[1] != 1 || p_shm->done_flag[2] != 1 || p_shm->done_flag[3] != 1){}  //Spins untill all processes have been completed 
@@ -197,7 +197,7 @@ int main(){
 	printf("-------------------- the master process is terminating ...\n\n\n");	
 	}
 	/*************************
-	 *	CLEAN UP TIME	     *
+	 *	CLEAN UP TIME	 *
 	 * ***********************/
 	if(getpid() == parent_pid){
 	// Delete message queue
@@ -302,10 +302,7 @@ void process_C2(struct my_mem * p_shm, int msqid){
 
 	//Wait 3 seconds
 	millisleep(THREE_SECONDS);
-
-//	while(p_shm->done_flag[0] != 1){}
-//	printf("	Child Process #2 is terminating (checksum: %d) ....\n\n", checksum);
-
+	
 	p_shm->individual_sum[1] = checksum;				// Submit checksum to parent process
 	p_shm->done_flag[1] = 1;					// Tells parent that process is complete
 	p_shm->child -= 1;						// Subtracts itself from child count
@@ -337,9 +334,6 @@ void process_C3(struct my_mem * p_shm, int msqid){
 
 	//Wait 3 seconds
 	millisleep(THREE_SECONDS);	
-	
-//	while(p_shm->done_flag[1] != 1){}
-//	printf("	Child Process #3 is terminating (checksum: %d) ....\n\n", checksum);
 
 	p_shm->individual_sum[2] = checksum;				// Submit checksum to parent process
 	p_shm->done_flag[2] = 1;					// Tells parent that process is complete
@@ -369,8 +363,7 @@ void process_C4(struct my_mem * p_shm, int msqid){	// Fourth Child - Producer 2
 
 	//Wait 3 seconds
 	millisleep(ONE_SECOND);
-//	while(p_shm->done_flag[2] != 1){}
-//	printf("	Child Process #4 is terminating (checksum: %d) ....\n\n", checksum);
+	
 	p_shm->individual_sum[3] = checksum;				// Submit checksum to parent process
 	p_shm->done_flag[3] = 1;					// Tells parent that process is complete
 
